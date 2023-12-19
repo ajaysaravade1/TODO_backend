@@ -22,7 +22,11 @@ This backend server is designed to handle CRUD operations (Create, Read, Update,
    ```bash
    git clone https://github.com/ajaysaravade1/todo-backend.git
    cd todo-backend
+   ```
+   ```
    npm install
+   ```
+   ```
    npm start
    ```
 
