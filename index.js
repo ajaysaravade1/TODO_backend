@@ -4,7 +4,7 @@
 // const { getNotes, getNote, createNote } = require("./database.js");
 import express from "express";
 
-import { getNotes, getNote, createNote } from "./database.js";
+import { getNotes, getNote, createNote, deleteNote } from "./database.js";
 
 const app = express();
 
@@ -25,6 +25,29 @@ app.post("/notes", async (req, res) => {
   const { title, contents } = req.body;
   const note = await createNote(title, contents);
   res.status(201).send(note);
+});
+
+app.get("/notes/remove/:id", async (req, res) => {
+  const id = req.params.id;
+  const note = await deleteNote(id);
+  console.log(note);
+  res.status(201).send(note);
+});
+app.delete("/notes/:id", async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const deletedNote = await deleteNote(id);
+
+    if (deletedNote) {
+      res.send({ success: true, message: "Note deleted successfully" });
+    } else {
+      res.status(404).send({ success: false, message: "Note not found" });
+    }
+  } catch (error) {
+    console.error("Error deleting note:", error);
+    res.status(500).send({ success: false, message: "Internal server error" });
+  }
 });
 
 app.listen(8080, () => {
