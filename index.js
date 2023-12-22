@@ -9,6 +9,11 @@ import { getNotes, getNote, createNote, deleteNote } from "./database.js";
 const app = express();
 
 app.use(express.json());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 app.get("/notes", async (req, res) => {
   const notes = await getNotes();
@@ -49,7 +54,8 @@ app.delete("/notes/:id", async (req, res) => {
     res.status(500).send({ success: false, message: "Internal server error" });
   }
 });
+const PORT = process.env.PORT || 3000;
 
-app.listen(8080, () => {
+app.listen(PORT, () => {
   console.log("Server is running on port 8080");
 });
